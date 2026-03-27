@@ -46,6 +46,7 @@ function applyFilters(data: Session[], filterKey: string | null, query: string) 
 }
 
 export default function Home() {
+  const privateConsoleUrl = process.env.NEXT_PUBLIC_PRIVATE_CONSOLE_URL;
   const [activeFilter, setActiveFilter] = useState<string | null>("agentic");
   const [search, setSearch] = useState("");
   const [data, setData] = useState<Session[]>(staticSessions);
@@ -67,7 +68,7 @@ export default function Home() {
             return {
               id: item.id || `sess-${idx}`,
               code: item.session_id || item.id || `S-${idx}`,
-              title: item.title,
+              title: item.title || "Untitled session",
               track,
               focusArea,
               tags: [
@@ -158,6 +159,14 @@ export default function Home() {
             <div className="hidden items-center gap-2 rounded-full border border-purple-500/40 bg-purple-500/10 px-3 py-2 text-xs text-purple-100 shadow-[0_0_16px_rgba(168,85,247,0.45)] md:flex">
               <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-300" /> Wallet Connected: 0xSN00K · Ledger Sync: OK
             </div>
+            {privateConsoleUrl && (
+              <a
+                href={privateConsoleUrl}
+                className="hidden items-center gap-2 rounded-full border border-cyan-400/60 bg-cyan-500/10 px-3 py-2 text-xs text-cyan-100 shadow-[0_0_16px_rgba(56,189,248,0.45)] md:flex"
+              >
+                <span className="h-2 w-2 animate-pulse rounded-full bg-cyan-300" /> Private Console
+              </a>
+            )}
           </div>
         </header>
 
