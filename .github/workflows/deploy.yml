@@ -17,6 +17,10 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      GITHUB_PAGES: true
+      NEXT_PUBLIC_PUBLIC_FEED_URL: ""
+      NEXT_PUBLIC_PRIVATE_CONSOLE_URL: ""
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
