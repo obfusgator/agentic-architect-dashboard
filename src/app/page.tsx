@@ -28,6 +28,10 @@ type RemoteSession = {
   description?: string;
 };
 
+type PublicFeed = {
+  sessions?: Session[];
+};
+
 function applyFilters(data: Session[], filterKey: string | null, query: string) {
   const preset = filterKey ? presetFilters[filterKey] : null;
   return data.filter((s) => {
@@ -87,6 +91,17 @@ export default function Home() {
           });
 
       try {
+        // Prefer published public feed if provided
+        if (process.env.NEXT_PUBLIC_PUBLIC_FEED_URL) {
+          const pubRes = await fetch(process.env.NEXT_PUBLIC_PUBLIC_FEED_URL);
+          if (pubRes.ok) {
+            const feed = (await pubRes.json()) as PublicFeed;
+            if (feed.sessions?.length) {
+              setData(feed.sessions);
+              return;
+            }
+          }
+        }
         const res = await fetch(
           "https://fhoffa.github.io/google-cloud-next-2026-unofficial-scrape/data.json"
         );

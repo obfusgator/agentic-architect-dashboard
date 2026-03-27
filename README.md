@@ -24,3 +24,5 @@ GITHUB_PAGES=true npm run build
 ## Notes
 - Static export (`output: "export"`) with unoptimized images and basePath/assetPrefix gated by `GITHUB_PAGES` env.
 - No secrets in the client; any LLM/voice backend should live behind a server (Cloud Run recommended).
+- Public feed: set `NEXT_PUBLIC_PUBLIC_FEED_URL` to a published JSON (e.g., GCS public file) if you want to drive the public site from the private admin.
+- Private console link: set `NEXT_PUBLIC_PRIVATE_CONSOLE_URL` to your secured admin/console (Cloud Run with Google auth).
