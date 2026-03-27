@@ -14,6 +14,20 @@ import {
   geminiCountdowns,
 } from "@/content/geminiHighlights";
 
+type RemoteSession = {
+  id?: string;
+  session_id?: string;
+  title?: string;
+  topic?: string;
+  tags?: string[];
+  location?: string;
+  start?: string;
+  end?: string;
+  date_time?: string;
+  speakers?: { name?: string }[] | string[];
+  description?: string;
+};
+
 function applyFilters(data: Session[], filterKey: string | null, query: string) {
   const preset = filterKey ? presetFilters[filterKey] : null;
   return data.filter((s) => {
