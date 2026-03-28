@@ -46,6 +46,10 @@ export function LoginScreen() {
       ).join("");
       
       localStorage.setItem(TOTP_SECRET_KEY, secret);
+      const uri = getTOTPUri(secret, email);
+      const QRCode = (await import("qrcode")).default;
+      const qrDataUrl = await QRCode.toDataURL(uri);
+      setQrCodeUrl(qrDataUrl);
       setStep("setup");
     } else {
       setStep("totp");
@@ -93,6 +97,9 @@ export function LoginScreen() {
   };
 
   const handleBack = () => {
+    if (step === "setup") {
+      localStorage.removeItem(TOTP_SECRET_KEY);
+    }
     setStep("email");
     setEmail("");
     setTotpCode("");
