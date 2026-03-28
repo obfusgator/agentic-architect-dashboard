@@ -98,7 +98,6 @@ export function LoginScreen() {
     setTotpCode("");
     setError("");
     setQrCodeUrl("");
-    setTotpSecret("");
   };
 
   return (
