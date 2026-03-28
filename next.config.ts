@@ -1,8 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: "export",
-  distDir: "dist",
+  output: process.env.DOCKER_BUILD === "true" ? "standalone" : "export",
+  distDir: process.env.DOCKER_BUILD === "true" ? ".next" : "dist",
   images: {
     unoptimized: true,
   },
