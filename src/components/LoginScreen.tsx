@@ -307,6 +307,21 @@ export function LoginScreen() {
               >
                 Use different account
               </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  localStorage.removeItem(TOTP_SECRET_KEY);
+                  localStorage.removeItem(TOTP_SETUP_KEY);
+                  setStep("email");
+                  setEmail("");
+                  setTotpCode("");
+                  setError("");
+                }}
+                className="w-full text-center text-sm text-amber-400/60 hover:text-amber-300 transition"
+              >
+                Reset 2FA setup
+              </button>
             </form>
           )}
 
