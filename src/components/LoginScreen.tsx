@@ -19,6 +19,7 @@ export function LoginScreen() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [qrCodeUrl, setQrCodeUrl] = useState("");
+  const [totpUri, setTotpUri] = useState("");
 
   const checkSetupStatus = useCallback(() => {
     if (typeof window === "undefined") return false;
@@ -48,8 +49,16 @@ export function LoginScreen() {
       
       localStorage.setItem(TOTP_SECRET_KEY, secret);
       const uri = getTOTPUri(secret, email);
-      const qrDataUrl = await QRCodeLib.toDataURL(uri);
-      setQrCodeUrl(qrDataUrl);
+      console.log("TOTP URI:", uri);
+      setTotpUri(uri);
+      try {
+        const qrDataUrl = await QRCodeLib.toDataURL(uri);
+        console.log("QR generated:", !!qrDataUrl);
+        setQrCodeUrl(qrDataUrl);
+      } catch (err) {
+        console.error("QR error:", err);
+        setError("Failed to generate QR code");
+      }
       setStep("setup");
     } else {
       setStep("totp");
@@ -186,6 +195,13 @@ export function LoginScreen() {
                   <div className="p-4 bg-white rounded-xl">
                     <img src={qrCodeUrl} alt="QR Code" className="w-48 h-48" />
                   </div>
+                </div>
+              )}
+
+              {!qrCodeUrl && totpUri && (
+                <div className="text-center text-sm text-white/60 mb-4">
+                  <p className="mb-2">Or manually enter this code:</p>
+                  <code className="block bg-white/10 px-3 py-2 rounded text-xs text-amber-200 break-all">{totpUri}</code>
                 </div>
               )}
 
