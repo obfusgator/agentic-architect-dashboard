@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useAuth } from "@/components/AuthProvider";
 import { AUTH_CONFIG, ALLOWED_EMAIL } from "@/lib/auth";
 import { verifyTOTP, getTOTPUri, isValidEmail } from "@/lib/totp";
+import QRCodeLib from "qrcode";
 
 const TOTP_SECRET_KEY = "agentic_totp_secret";
 const TOTP_SETUP_KEY = "agentic_totp_setup_complete";
@@ -47,8 +48,7 @@ export function LoginScreen() {
       
       localStorage.setItem(TOTP_SECRET_KEY, secret);
       const uri = getTOTPUri(secret, email);
-      const QRCode = (await import("qrcode")).default;
-      const qrDataUrl = await QRCode.toDataURL(uri);
+      const qrDataUrl = await QRCodeLib.toDataURL(uri);
       setQrCodeUrl(qrDataUrl);
       setStep("setup");
     } else {
